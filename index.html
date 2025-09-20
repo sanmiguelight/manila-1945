@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Metro Manila - 1945</title>
+    <!-- Leaflet CSS-->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        /* Full screen map */
+        #map {
+            height: 100vh;
+            margin: 0;
+        }
+
+        /* Transparency slider container*/
+        .slider-container {
+            position: absolute;
+            top: 10px;
+            left: 70px;
+            z-index: 1000;
+            background: white;
+            padding: 10px;
+            border-radius: 6px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 1);
+        }
+
+        .layer-name {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- This div will contain the map -->
+    <div id="map"></div>
+
+    <!-- This div will contain the slider -->
+    <div class="slider-container">
+        <h2 style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">Map Transparency</h1>
+            <div class="layer-name">Manila North<input type="range" min="0" max="1" step="0.05" value="1"
+                    id="transparencySlider"></div>
+    </div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        // Create map centered at NCR
+        var map = L.map('map', {
+            center: [14.625, 121.0],
+            zoom: 13,
+            minZoom: 12,
+            maxZoom: 18
+        })
+
+        // Add OSM basemap
+        var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Add Manila North
+        var manilaNorth = L.tileLayer('manila-north-tiles/{z}/{x}/{y}.png', {
+            attribution: 'American Geographical Society Library Digital Map Collection',
+            opacity: 1,
+            minZoom: 10,
+            maxZoom: 18,
+        }).addTo(map)
+
+        // Connect the slider to the map
+        var slider = document.getElementById("transparencySlider");
+        slider.addEventListener("input", function () {
+            manilaNorth.setOpacity(this.value);
+        })
+    </script>
+</body>
+
+</html>
