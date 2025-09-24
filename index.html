@@ -40,7 +40,9 @@
     <div class="slider-container">
         <h2 style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">Map Transparency</h1>
             <div class="layer-name">Manila North<input type="range" min="0" max="1" step="0.05" value="1"
-                    id="transparencySlider"></div>
+                    id="transparencySlider-ManilaNorth"></div>
+            <div class="layer-name">Manila South<input type="range" min="0" max="1" step="0.05" value="1"
+                    id="transparencySlider-ManilaSouth"></div>
     </div>
 
     <!-- Leaflet JS -->
@@ -48,15 +50,16 @@
     <script>
         // Create map centered at NCR
         var map = L.map('map', {
-            center: [14.625, 121.0],
-            zoom: 13,
+            center: [14.58, 121.0],
+            zoom: 12,
             minZoom: 12,
             maxZoom: 18
         })
 
         // Add OSM basemap
         var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© OpenStreetMap contributors'
+            attribution: '© OpenStreetMap contributors',
+            zIndex: 1
         }).addTo(map);
 
         // Add Manila North
@@ -65,12 +68,27 @@
             opacity: 1,
             minZoom: 10,
             maxZoom: 18,
+            zIndex: 3,
         }).addTo(map)
 
-        // Connect the slider to the map
-        var slider = document.getElementById("transparencySlider");
-        slider.addEventListener("input", function () {
+        // Add Manila South
+        var manilaSouth = L.tileLayer('manila-south-tiles/{z}/{x}/{y}.png', {
+            attribution: 'American Geographical Society Library Digital Map Collection',
+            opacity: 1,
+            minZoom: 10,
+            maxZoom: 18,
+            zIndex: 2,
+        }).addTo(map)
+
+        // Connect the sliders to the respective maps
+        var sliderManilaNorth = document.getElementById("transparencySlider-ManilaNorth");
+        sliderManilaNorth.addEventListener("input", function () {
             manilaNorth.setOpacity(this.value);
+        })
+
+        var sliderManilaSouth = document.getElementById("transparencySlider-ManilaSouth");
+        sliderManilaSouth.addEventListener("input", function () {
+            manilaSouth.setOpacity(this.value);
         })
     </script>
 </body>
