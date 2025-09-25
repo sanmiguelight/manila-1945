@@ -39,10 +39,10 @@
     <!-- This div will contain the slider -->
     <div class="slider-container">
         <h2 style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">Map Transparency</h1>
-            <div class="layer-name">Manila North<input type="range" min="0" max="1" step="0.05" value="1"
-                    id="transparencySlider-ManilaNorth"></div>
-            <div class="layer-name">Manila South<input type="range" min="0" max="1" step="0.05" value="1"
-                    id="transparencySlider-ManilaSouth"></div>
+            <div class="layer-name"> <input type="checkbox" id="checkboxManilaNorth" checked>Manila North<input
+                    type="range" min="0" max="1" step="0.05" value="1" id="transparencySlider-ManilaNorth"></div>
+            <div class="layer-name"><input type="checkbox" id="checkboxManilaSouth" checked>Manila South<input
+                    type="range" min="0" max="1" step="0.05" value="1" id="transparencySlider-ManilaSouth"></div>
     </div>
 
     <!-- Leaflet JS -->
@@ -89,6 +89,29 @@
         var sliderManilaSouth = document.getElementById("transparencySlider-ManilaSouth");
         sliderManilaSouth.addEventListener("input", function () {
             manilaSouth.setOpacity(this.value);
+        })
+
+        // Connect layer checkboxes to respective maps
+        var toggleManilaNorth = document.getElementById("checkboxManilaNorth");
+
+        toggleManilaNorth.addEventListener('change', function () {
+            if (this.checked) {
+                map.addLayer(manilaNorth)
+            }
+            else {
+                map.removeLayer(manilaNorth);
+            }
+        })
+
+        var toggleManilaSouth = document.getElementById("checkboxManilaSouth");
+
+        toggleManilaSouth.addEventListener('change', function () {
+            if (this.checked) {
+                map.addLayer(manilaSouth)
+            }
+            else {
+                map.removeLayer(manilaSouth);
+            }
         })
     </script>
 </body>
